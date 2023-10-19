@@ -7,7 +7,7 @@
         <div class="col-md-4 col-sm-6 col-8 p-5 text-center bg-light rounded shadow">
 
             <!-- for apply this function: BaseController.php > add $helpers = ['form']; -->
-            <?= form_open('main/login_submit') ?>
+            <?= form_open('login_submit') ?>
 
                 <h3 class="text-center mb-3 text-black"><strong><?= APP_NAME ?></strong></h3>
                 <div class="mb-3 text-start">

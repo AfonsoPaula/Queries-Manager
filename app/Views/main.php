@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-3 col-12 text-end">
-            <a href="#" class="btn btn-primary"><i class="fa-solid fa-plus me-3"></i>Nova Query</a>
+            <a href="<?= site_url('new_query') ?>" class="btn btn-primary"><i class="fa-solid fa-plus me-3"></i>New Query</a>
         </div>
     </div>
 <?= form_close() ?>
