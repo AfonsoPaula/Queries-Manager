@@ -4,10 +4,10 @@
 
 <section class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-4 col-sm-6 col-8 p-5 text-center bg-light rounded shadow">
+        <div class="col-md-4 col-sm-6 col-8 p-5 mt-5 text-center bg-light rounded shadow">
 
             <!-- for apply this function: BaseController.php > add $helpers = ['form']; -->
-            <?= form_open('login_submit') ?>
+            <?= form_open('login_submit', ['novalidate' => true]) ?>
 
                 <h3 class="text-center mb-3 text-black"><strong><?= APP_NAME ?></strong></h3>
                 <div class="mb-3 text-start">
@@ -25,6 +25,16 @@
                 </div>
 
             <?= form_close() ?>
+
+            <?php if(!empty($validation_errors)): ?>
+                <div class="alert alert-danger p-2">
+                    <ul>
+                        <?php foreach($validation_errors as $error): ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
 
         </div>
     </div>

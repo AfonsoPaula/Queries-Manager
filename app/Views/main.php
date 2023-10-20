@@ -33,9 +33,9 @@
             <table class="table" id="table-results">
                 <thead class="table-light ">
                     <tr>
-                        <th width="25%" class="text-dark">Project</th>
-                        <th width="75%" class="text-dark">Query</th>
-                        <th></th>
+                        <th width="15%" class="text-dark">Project</th>
+                        <th width="70%" class="text-dark">Query</th>
+                        <th width="15%"></th>
                     </tr>
                 </thead>
                 <tbody class="table-secondary">
