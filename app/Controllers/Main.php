@@ -3,13 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\UsersModel;
 
 class Main extends BaseController
 {
     public function index()
     {
-        // return view('home');
-        // return view('login_frm');
         return view('main');
     }
 
@@ -18,11 +17,16 @@ class Main extends BaseController
     // -----------------------------------------------------------------------
     public function login()
     {
+        //check if login already
+        if(session()->has('id')){
+            return redirect()->to('/');
+        }
+
         $data = [];
 
         $data['validation_errors'] = session()->getFlashdata('validation_errors');
         $data['login_error'] = session()->getFlashdata('login_error');
-        
+
         return view('login_frm', $data);
     }
 
@@ -56,15 +60,25 @@ class Main extends BaseController
 
         //check user
         $username = $this->request->getPost('username');
-        $username = $this->request->getPost('password');
+        $password = $this->request->getPost('password');
 
-        $login = false;
+        $user_model = new UsersModel();
+        $user = $user_model->where('username', $username)->first();
 
-        if(!$login){
-            return redirect()->back()->withInput()->with('login_error', 'Username or password is invalid');
+        if(!$user){
+            return redirect()->back()->withInput()->with('login_error', 'Username or password is invalid.');
         }
 
-        echo 'OK!';
+        //check password
+        if(!password_verify($password, $user->passwrd)){
+            return redirect()->back()->withInput()->with('login_error', 'Username or password is invalid.');
+        }
+
+        // login ok
+        session()->set('id', $user->id);
+        session()->set('username', $user->username);
+
+        return redirect()->to('/');
     }
 
     public function logout()
