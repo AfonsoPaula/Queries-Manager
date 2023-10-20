@@ -28,6 +28,11 @@
 </head>
 <body>
 
+    <!-- user bar -->
+    <?php if(!session()->has('id')):  ?>
+        <?= $this->include('layouts/user_bar') ?>
+    <?php endif; ?>
+
     <?= $this->renderSection('content') ?>
 
     <!-- bootstrap js -->
