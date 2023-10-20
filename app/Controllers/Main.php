@@ -21,7 +21,8 @@ class Main extends BaseController
         $data = [];
 
         $data['validation_errors'] = session()->getFlashdata('validation_errors');
-
+        $data['login_error'] = session()->getFlashdata('login_error');
+        
         return view('login_frm', $data);
     }
 
@@ -51,6 +52,16 @@ class Main extends BaseController
 
         if (!$validation){
             return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
+        }
+
+        //check user
+        $username = $this->request->getPost('username');
+        $username = $this->request->getPost('password');
+
+        $login = false;
+
+        if(!$login){
+            return redirect()->back()->withInput()->with('login_error', 'Username or password is invalid');
         }
 
         echo 'OK!';
