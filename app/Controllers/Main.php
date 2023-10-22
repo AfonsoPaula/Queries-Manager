@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UsersModel;
+use App\Models\QueriesModel;
 
 class Main extends BaseController
 {
@@ -143,5 +144,25 @@ class Main extends BaseController
         if(!$validation){
             return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
         }
+
+        //capture input data
+        $query_name = $this->request->getPost('text_query_name');
+        $projeto = $this->request->getPost('text_projeto');
+        $tags = $this->request->getPost('text_tags');
+        $query = $this->request->getPost('text_query');
+
+        // save query
+        $user_id = session()->get('id');
+        $query_model = new QueriesModel();
+
+        $query_model->insert([
+            'id_user'    => $user_id,
+            'query_name' => $query_name,
+            'query_tags' => $tags,
+            'project'    => $projeto,
+            'query'      => $query
+        ]);
+
+        return redirect()->to('/');
     }
 }
