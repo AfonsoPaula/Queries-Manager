@@ -83,7 +83,8 @@ class Main extends BaseController
 
     public function logout()
     {
-        echo 'Aqui logout!';
+        session()->destroy();
+        return redirect()->to('/');
     }
 
     // -----------------------------------------------------------------------
@@ -91,11 +92,56 @@ class Main extends BaseController
     // -----------------------------------------------------------------------
     public function new_query()
     {
-        return view('new_query_frm');
+        // get form validation errors
+        $data['validation_errors'] = session()->getFlashdata('validation_errors');
+
+        return view('new_query_frm', $data);
     }
 
     public function new_query_submit()
     {
-        echo 'Aqui new_query_submit!';
+        // form validation
+        $validation = $this->validate([
+            'text_query_name'=>[
+                'label'  => 'query name',
+                'rules'  => 'required|min_length[3]|max_length[200]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ],
+            'text_projeto' =>[
+                'label'  => 'project',
+                'rules'  => 'required|min_length[3]|max_length[200]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ],
+            'text_tags'=>[
+                'label'  => 'tags',
+                'rules'  => 'required|min_length[3]|max_length[300]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ],
+            'text_query'=>[
+                'label'  => 'query',
+                'rules'  => 'required|min_length[3]|max_length[3000]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ]
+        ]);
+
+        if(!$validation){
+            return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
+        }
     }
 }
