@@ -96,4 +96,5 @@ define('EVENT_PRIORITY_HIGH', 10);
 // -----------------------------------------------------------------------
 // DEFINE MY OWN CONSTANTS
 
-define('APP_NAME', 'Gestor de Queries');
+define('APP_NAME', 'Queries Manager');
+define('MYSQL_AES_KEY', '2TZjhLcIecEY3I8fvrESDmG28BT2qVDQ');
