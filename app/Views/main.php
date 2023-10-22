@@ -10,7 +10,9 @@
                     <label for="search" class="me-3 text-light"><strong>Search:</strong></label>
                     <input type="text" name="search" id="search" class="form-control form-control-sm w-50 me-3" placeholder="Search">
                     <button type="submit" class="btn btn-secondary d-flex align-items-center"><i class="fa-solid fa-magnifying-glass me-3"></i>Submit</button>
+                    
                     <span class="mx-3"></span>
+                    
                     <label for="select_project" class="me-3 text-light"><strong>Project:</strong></label>
                     <select name="select_project" id="select_project" class="form-select form-select-sm w-50">
                         <option value=""></option>
@@ -39,17 +41,17 @@
                     </tr>
                 </thead>
                 <tbody class="table-secondary">
-                    <!-- loop for obtain queries -->
-                    <!-- 
+
+                <?php foreach($queries as $query): ?>
                     <tr>
-                        <td>Projeto 1</td>
-                        <td>Query 1</td>
+                        <td><?= $query->project ?></td>
+                        <td><?= $query->query_name ?></td>
                         <td class="text-end">
-                            <a href="#" class="btn btn-sm btn-primary"><i class="fa-solid fa-edit"></i></a>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                            <a href="<?= site_url("edit_query/" . encrypt($query->id)) ?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-edit"></i></a>
+                            <a href="<?= site_url("delete_query/" . encrypt($query->id)) ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
-                    -->
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

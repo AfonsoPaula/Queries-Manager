@@ -10,7 +10,14 @@ class Main extends BaseController
 {
     public function index()
     {
-        return view('main');
+        // load user queries
+        $queries_model = new QueriesModel();
+        $data['queries'] = $queries_model
+            ->select('id, query_name, project')
+            ->where('id_user', session()->get('id'))
+            ->findAll();
+
+        return view('main', $data);
     }
 
     // -----------------------------------------------------------------------
@@ -167,4 +174,18 @@ class Main extends BaseController
 
         return redirect()->to('/');
     }
+
+    // -----------------------------------------------------------------------
+    // edit query
+    // -----------------------------------------------------------------------
+    public function edit_query($enc_id)
+    {
+        $id = decrypt($enc_id);
+        if(!$id){
+            return redirect()->to('/');
+        }
+        
+        echo $id;
+    }
+
 }
