@@ -8,10 +8,18 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Main::index');
 
 // login/logout
-$routes->get('/login', 'Main::login'); // 'get' do login que há de ir para o main e para o login
+$routes->get('/login', 'Main::login');
 $routes->post('/login_submit', 'Main::login_submit');
 $routes->get('/logout', 'Main::logout');
+
+// new query
 $routes->get('/new_query', 'Main::new_query');
 $routes->post('/new_query_submit', 'Main::new_query_submit');
+
+// edit query
 $routes->get('/edit_query/(:alphanum)', 'Main::edit_query/$1');
 $routes->post('/edit_query_submit', 'Main::edit_query_submit');
+
+// delete query
+$routes->get('/delete_query/(:alphanum)', 'Main::delete_query/$1');
+$routes->get('/delete_query_confirm/(:alphanum)', 'Main::delete_query_confirm/$1');
