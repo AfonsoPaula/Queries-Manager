@@ -184,8 +184,85 @@ class Main extends BaseController
         if(!$id){
             return redirect()->to('/');
         }
-        
-        echo $id;
+
+        // get query data
+        $query_model = new QueriesModel();
+        $query = $query_model->get_query($id);
+
+        if(!$query){
+            return redirect()->to('/');
+        }
+
+        // get form validation errors
+        $data['validation_errors'] = session()->getFlashdata('validation_errors');
+
+        $data['query'] = $query;
+
+        return view('edit_query_frm', $data);
     }
 
+    public function edit_query_submit()
+    {
+        // form validation
+        $validation = $this->validate([
+            'text_query_name'=>[
+                'label'  => 'query name',
+                'rules'  => 'required|min_length[3]|max_length[200]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ],
+            'text_projeto' =>[
+                'label'  => 'project',
+                'rules'  => 'required|min_length[3]|max_length[200]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ],
+            'text_tags'=>[
+                'label'  => 'tags',
+                'rules'  => 'required|min_length[3]|max_length[300]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ],
+            'text_query'=>[
+                'label'  => 'query',
+                'rules'  => 'required|min_length[3]|max_length[3000]',
+                'errors' => [
+                    'required'       => '{field} is required.',
+                    'min_length[3]'  => '{field} must be at least {param} characters in length.',
+                    'max_length[20]' => '{field} must not exceed {param} characters in length.',
+                ]
+            ]
+        ]);
+
+        if(!$validation){
+            return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
+        }
+
+        // capture input data
+        $id = decrypt($this->request->getPost('id_query'));
+        if(!$id){
+            return redirect()->to('/');
+        }
+
+        // collect input data
+        $data['query_name'] = $this->request->getPost('text_query_name');
+        $data['query_tags'] = $this->request->getPost('text_tags');
+        $data['project']    = $this->request->getPost('text_projeto');
+        $data['query']      = $this->request->getPost('text_query');
+
+        // update query in database
+        $query_model = new QueriesModel();
+        $query_model->update_query($id, $data);
+
+        return redirect()->to('/');
+    }
 }
