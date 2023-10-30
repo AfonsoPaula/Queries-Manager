@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Database\Migrations\Queries;
 use App\Models\UsersModel;
 use App\Models\QueriesModel;
 
@@ -38,6 +39,12 @@ class Main extends BaseController
         $data['project_filter'] = session()->get('project_filter');
         
         return view('main', $data);
+    }
+
+    public function home()
+    {
+        session()->remove('project_filter');
+        return redirect()->to('/');
     }
 
     // -----------------------------------------------------------------------
@@ -380,5 +387,25 @@ class Main extends BaseController
         $data['search'] = $search;
 
         return view('main', $data);
+    }
+
+    public function view_query($enc_id)
+    {
+        $id = decrypt($enc_id);
+        if(!$id){
+            return redirect()->to('/');
+        }
+
+        // get query data
+        $query_model = new QueriesModel();
+        $query = $query_model->get_query($id);
+
+        if(!$query){
+            return redirect()->to('/');
+        }
+
+        $data['query'] = $query;
+
+        return view('view_query', $data);
     }
 }

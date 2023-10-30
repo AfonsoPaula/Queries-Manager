@@ -33,34 +33,39 @@
 <!-- results table -->
 <div class="container-fluid">
 
-    <div class="row justify-content-center mt-5">
-        <div class="col-sm-10">
-            <table class="table" id="table-results">
-                <thead class="table-light ">
-                    <tr>
-                        <th width="15%" class="text-dark">Project</th>
-                        <th width="70%" class="text-dark">Query</th>
-                        <th width="15%"></th>
-                    </tr>
-                </thead>
-                <tbody class="table-secondary">
-
-                <?php foreach($queries as $query): ?>
-                    <tr>
-                        <td><?= $query->project ?></td>
-                        <td><?= $query->query_name ?></td>
-                        <td class="text-end">
-                            <a href="<?= site_url("edit_query/" . encrypt($query->id)) ?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-edit"></i></a>
-                            <a href="<?= site_url("delete_query/" . encrypt($query->id)) ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+    <?php if(count($queries) == 0): ?>
+        <p class="mt-5 text-center text-light">No results found.</p>
+    <?php else: ?>
+        <div class="row justify-content-center mt-5">
+            <div class="col-sm-10">
+                <table class="table" id="table-results">
+                    <thead class="table-light ">
+                        <tr>
+                            <th width="15%" class="text-dark">Project</th>
+                            <th width="70%" class="text-dark">Query Name</th>
+                            <th width="15%"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-secondary">
+                        <?php foreach($queries as $query): ?>
+                            <tr>
+                                <td><?= $query->project ?></td>
+                                <td>
+                                    <a href="<?= site_url('view_query/' . encrypt($query->id)) ?>" class="no-link text-white">
+                                        <?= $query->query_name ?>
+                                    </a>
+                                </td>
+                                <td class="text-end">
+                                    <a href="<?= site_url("edit_query/" . encrypt($query->id)) ?>" class="btn btn-sm btn-primary"><i class="fa-solid fa-edit"></i></a>
+                                    <a href="<?= site_url("delete_query/" . encrypt($query->id)) ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-
-    <p class="mt-5 text-center text-light">No results found.</p>
+    <?php endif; ?>
 </div>
 
 <script>

@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Main::index');
+$routes->get('/home', 'Main::home');
 
 // login/logout
 $routes->get('/login', 'Main::login');
@@ -29,3 +30,7 @@ $routes->get('/set_filter/(:alphanum)', 'Main::set_filter/$1');
 
 //search
 $routes->post('/search_submit', 'Main::search_submit');
+$routes->get('/search_submit', 'Main::index');
+
+// view query
+$routes->get('view_query/(:alphanum)', 'Main::view_query/$1');
