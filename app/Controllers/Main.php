@@ -341,4 +341,44 @@ class Main extends BaseController
 
         return redirect()->to('/');
     }
+
+    public function search_submit()
+    {
+        // form validation
+        $validation = $this->validate([
+            'search'=>[
+                'label'  => 'Search',
+                'rules'  => 'required',
+            ]
+        ]);
+
+        if(!$validation){
+            return redirect()->back()->withInput();
+        }
+
+        $search = $this->request->getPost('search');
+
+        // search query
+        $query_model = new QueriesModel();
+        $queries = $query_model
+            ->where('id_user', session()->get('id'))
+            ->like('query_name', $search, 'both')
+            ->orLike('query_tags', $search, 'both')
+            ->orLike('project', $search, 'both')
+            ->findAll();
+        
+        // load user projects
+        $data['projects'] = $query_model
+            ->select('project')
+            ->where('id_user', session()->get('id'))
+            ->groupBy('project')
+            ->findAll();
+
+        session()->remove('project_filter');
+
+        $data['queries'] = $queries;
+        $data['search'] = $search;
+
+        return view('main', $data);
+    }
 }
