@@ -15,7 +15,10 @@
                     
                     <label for="select_project" class="me-3 text-light"><strong>Project:</strong></label>
                     <select name="select_project" id="select_project" class="form-select form-select-sm w-50">
-                        <option value=""></option>
+                        <option value="<?= encrypt('[all_queries]') ?>">All queries</option>
+                        <?php foreach ($projects as $project) : ?>
+                            <option value="<?= encrypt($project->project) ?>" <?= !empty($project_filter) ? set_project_filter($project_filter, $project->project) : '' ?> > <?= $project->project ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>
@@ -58,7 +61,12 @@
     </div>
 
     <p class="mt-5 text-center text-light">No results found.</p>
-
 </div>
+
+<script>
+    document.querySelector("#select_project").addEventListener("change", function() {
+        window.location.href = "<?= site_url('/set_filter/') ?>" + this.value;
+    });
+</script>
 
 <?= $this->endSection() ?>

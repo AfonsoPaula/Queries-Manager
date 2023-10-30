@@ -10,13 +10,33 @@ class Main extends BaseController
 {
     public function index()
     {
-        // load user queries
         $queries_model = new QueriesModel();
-        $data['queries'] = $queries_model
-            ->select('id, query_name, project')
-            ->where('id_user', session()->get('id'))
-            ->findAll();
 
+        // load user projects
+        $data['projects'] = $queries_model
+            ->select('project')
+            ->where('id_user', session()->get('id'))
+            ->groupBy('project')
+            ->findAll();
+        
+        // load user queries
+        $project = session()->get('project_filter');
+        if (!empty($project) && $project != '[all_queries]') {
+            $data['queries'] = $queries_model
+                ->select('id, query_name, project')
+                ->where('id_user', session()->get('id'))
+                ->where('project', $project)
+                ->findAll();
+        } else {
+            $data['queries'] = $queries_model
+                ->select('id, query_name, project')
+                ->where('id_user', session()->get('id'))
+                ->findAll();
+        }
+
+        // check if project filter is set in session
+        $data['project_filter'] = session()->get('project_filter');
+        
         return view('main', $data);
     }
 
@@ -266,6 +286,9 @@ class Main extends BaseController
         return redirect()->to('/');
     }
 
+    // -----------------------------------------------------------------------
+    // delete query
+    // -----------------------------------------------------------------------
     public function delete_query($enc_id)
     {
         $id = decrypt($enc_id);
@@ -296,6 +319,25 @@ class Main extends BaseController
         // delete query
         $query_model = new QueriesModel();
         $query_model->delete($id);
+
+        return redirect()->to('/');
+    }
+
+    // -----------------------------------------------------------------------
+    // filters
+    // -----------------------------------------------------------------------
+    public function set_filter($enc_project)
+    {
+        $project = decrypt($enc_project);
+        if (!$project) {
+            return redirect()->to('/');
+        }
+
+        if ($project == '[all_queries]') {
+            session()->remove('project_filter');
+        } else {
+            session()->set('project_filter', $project);
+        }
 
         return redirect()->to('/');
     }
