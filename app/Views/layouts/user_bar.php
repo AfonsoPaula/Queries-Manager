@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <a href="<?= site_url('/home') ?>" style="text-decoration: none">
-                <h3>Queries Manager</h3>
+                <h3><strong>Queries Manager</strong></h3>
             </a>
         </div>
         <div class="col d-flex justify-content-end align-items-center">
