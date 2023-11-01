@@ -41,7 +41,7 @@ The "Queries Manager" is a tool that allows users to efficiently manage queries.
 - MySQL for the database;
 - [CodeIgniter 4](https://codeigniter.com/download);
 
-Below are the links and scripts used in the project, all of which have been stored locally and can be found in the 'public/assets' directory.
+Below are the links and scripts used in the project, all of which have been stored locally and can be found in the `public/assets` directory.
 
 - Bootstrap:
 ```html
@@ -73,17 +73,25 @@ Below are the links and scripts used in the project, all of which have been stor
 
 ## Installation
 
-### Database Configuration
+### 1. Clone this repository
+
+You can use Git to clone the repository to your Laragon `www` directory. Open a command prompt or terminal and navigate to your Laragon's `www` directory. Then, use the following command to clone the repository:
+
+```shell
+https://github.com/AfonsoPaula/Queries-Manager.git
+```
+
+### 2. Configure PHP version
+
+Ensure that you have PHP version 8.1.10 installed and configured in Laragon. You can check and configure the PHP version in Laragon's settings.
+
+### 3. Database Configuration
 
 - Create your own database. Laragon comes with an integrated MySQL server, making the database creation process straightforward. By default, Laragon opens the HeidiSQL interface, which greatly simplifies this task;
 - Create a user with the necessary rights for database operations;
 - Insert the database specifications into the .env file:
 
 ```php
-#--------------------------------------------------------------------
-# DATABASE
-#--------------------------------------------------------------------
-
 database.default.hostname = localhost
 database.default.database = query_manager
 database.default.username = user_query_manager
@@ -94,15 +102,20 @@ database.default.port = 3306
 ```
 
 - Run Migrations and Seeders. To apply the necessary data to your database, open a terminal, navigate to your project's directory, and run the following commands:
+  - **Migrations** are used to execute migrations that create tables in the database according to the structure definied in project's code;
+  - **Seeders** are used to run seeders, which populate tables with initial or test data.
 
-  - **Migrations** are used to execute migrations that create tables in the database according to the structure definied in project's code:
 ```shell
 php spark migrate
 ```
 
-  - **Seeders** are used to run seeders, which populate tables with initial or test data:
 ```shell
 php spark db:seed
 ```
+  
 
-If you only want to view the project:
+Now, you should be able to access and view the project in your web browser using Laragon.
+
+## Acknowledgments
+
+I would like to express my gratitude to Professor João Ribeiro for his contribution to the development of this project.
